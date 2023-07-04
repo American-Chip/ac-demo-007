@@ -1,4 +1,4 @@
-name: Call a reusable workflow 
+name: Call a reusable workflow
 
 on:
   workflow_dispatch:
@@ -8,24 +8,33 @@ on:
       branch:
         description: 'branch'
       user_id:
-        descrption: 'user_id'
+        description: 'user_id'
     secrets:
       Token_WF:
 
- 
 jobs:
+  GetOrgName:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Organization Name
+        id: get-org
+        run: |
+          ORG=$(curl -s -H "Authorization: Bearer ${{ secrets.Token_WF }}" \
+                 https://api.github.com/user | jq -r '.organization.login')
+          NORMALIZED_ORG=$(echo $ORG | tr '[:upper:]' '[:lower:]' | tr '-' '_')
+          echo "::set-output name=ORG::$NORMALIZED_ORG"
 
   Deploy:
-    
+    needs: GetOrgName
     permissions:
       id-token: write
       contents: read
-
-    uses: American-Chip/workflow-remote/.github/workflows/graviton-scan-reusable.yaml@develop
+    uses: American-Chip/workflow-remote/.github/workflows/graviton-scan-customer.yaml@develop
     with:
       CLIENT_REPOSITORY: ${{ inputs.client_repository }}
-      BRANCH : ${{ inputs.branch }}
-      USER_id : ${{ inputs.user_id }}
+      BRANCH: ${{ inputs.branch }}
+      USER_id: ${{ inputs.user_id }}
+      ORG: ${{ needs.GetOrgName.outputs.ORG }}
 
     secrets:
-      ac_github_token: ${{secrets.Token_WF}}
+      ac_github_token: ${{ secrets.Token_WF }}
