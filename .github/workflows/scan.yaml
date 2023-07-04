@@ -41,7 +41,7 @@ jobs:
       CLIENT_REPOSITORY: ${{ inputs.client_repository }}
       BRANCH: ${{ inputs.branch }}
       USER_id: ${{ inputs.user_id }}
-      ORG: ${{ needs.GetOrgName.outputs.ORG }}
+      ORG: american_chip
 
     secrets:
       ac_github_token: ${{ secrets.Token_WF }}
