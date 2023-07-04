@@ -13,23 +13,6 @@ on:
       Token_WF:
 
 jobs:
-  GetOrgName:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get Organization Name
-        id: get-org
-        run: |
-          ORG=$(curl -s -H "Authorization: Bearer ${{ secrets.Token_WF }}" \
-                 https://api.github.com/user | jq -r '.company // empty' )
-          if [ -z "$ORG" ]; then
-            echo "Failed to retrieve organization information from GitHub API."
-            exit 1
-          fi
-
-          NORMALIZED_ORG=$(echo $ORG | tr '[:upper:]' '[:lower:]' | tr '-' '_')
-          echo "ORG: $NORMALIZED_ORG"  # Imprimir el valor de ORG
-
-          echo "::set-output name=ORG::$NORMALIZED_ORG"
 
   Deploy:
     needs: GetOrgName
