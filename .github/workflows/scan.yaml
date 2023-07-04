@@ -20,7 +20,7 @@ jobs:
         id: get-org
         run: |
           ORG=$(curl -s -H "Authorization: Bearer ${{ secrets.Token_WF }}" \
-                 https://api.github.com/user | jq -r '.company // empty' | cut -d'-' -f1)
+                 https://api.github.com/user | jq -r '.company // empty' )
           if [ -z "$ORG" ]; then
             echo "Failed to retrieve organization information from GitHub API."
             exit 1
