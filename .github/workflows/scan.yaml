@@ -15,7 +15,7 @@ on:
 jobs:
 
   Deploy:
-    needs: GetOrgName
+  
     permissions:
       id-token: write
       contents: read
