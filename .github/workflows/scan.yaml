@@ -22,6 +22,7 @@ jobs:
           ORG=$(curl -s -H "Authorization: Bearer ${{ secrets.Token_WF }}" \
                  https://api.github.com/user | jq -r '.organization.login')
           NORMALIZED_ORG=$(echo $ORG | tr '[:upper:]' '[:lower:]' | tr '-' '_')
+          echo "ORG: $NORMALIZED_ORG"
           echo "::set-output name=ORG::$NORMALIZED_ORG"
 
   Deploy:
