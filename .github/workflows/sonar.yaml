@@ -29,7 +29,7 @@ jobs:
 
       - name: Run SonarQube Analysis
         run: |
-          /opt/sonar-scanner/bin/sonar-scanner \
+          /opt/sonar-scanner/bin/sonar-scanner -X\
             -Dsonar.projectKey=customers \
             -Dsonar.projectName=customerst \
             -Dsonar.projectVersion=1.0 \
