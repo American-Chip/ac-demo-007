@@ -1,0 +1,44 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Set up SonarQube
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip
+          unzip sonar-scanner-cli-4.6.0.2311-linux.zip
+          mv sonar-scanner-4.6.0.2311-linux /opt/sonar-scanner
+          echo "export PATH=/opt/sonar-scanner/bin:$PATH" >> $HOME/.bashrc
+          source $HOME/.bashrc
+
+      - name: Run SonarQube Analysis
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=customers \
+            -Dsonar.projectName=customerst \
+            -Dsonar.projectVersion=1.0 \
+            -Dsonar.sources=. \
+            -Dsonar.language=python \
+            -Dsonar.host.url=https://dora.beta.americanchip.io \
+            -Dsonar.login=sqp_48f11bba6b13ee902198e192f136953a4b812cbd \
+            -Dsonar.analysis.mode=preview \
+            -Dsonar.issuesReport.console.enable=true \
+            -Dsonar.report.export.path=sonar-report.json
+
+      - name: Print SonarQube Report
+        run: cat sonar-report.json
