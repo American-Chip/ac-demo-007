@@ -41,4 +41,4 @@ jobs:
             -Dsonar.report.export.path=sonar-report.json
 
       - name: Print SonarQube Report
-        run: cat sonar-report.json
+        run: cat /opt/sonar-scanner/bin/sonar-scanner/sonar-report.json
