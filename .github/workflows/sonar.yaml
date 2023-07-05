@@ -42,5 +42,6 @@ jobs:
 
       - name: Get SonarQube Report
         run: |
-          curl  -u sqp_48f11bba6b13ee902198e192f136953a4b812cbd: https://dora.beta.americanchip.io/api/measures/component?component=customers&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,coverage
+          curl -o sonar-report.json -u squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a: "https://dora.beta.americanchip.io/api/measures/component?component=customers&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,coverage"
+          cat sonar-report.json
 
