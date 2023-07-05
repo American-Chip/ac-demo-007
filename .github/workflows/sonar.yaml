@@ -30,8 +30,8 @@ jobs:
       - name: Run SonarQube Analysis
         run: |
           /opt/sonar-scanner/bin/sonar-scanner \
-            -Dsonar.projectKey=customers \
-            -Dsonar.projectName=customerst \
+            -Dsonar.projectKey=testlocalP \
+            -Dsonar.projectName=testlocal \
             -Dsonar.projectVersion=1.0 \
             -Dsonar.sources=. \
             -Dsonar.language=python \
