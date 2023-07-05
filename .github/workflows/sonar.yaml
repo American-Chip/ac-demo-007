@@ -44,5 +44,5 @@ jobs:
         run: |
           curl -o sonar-report.json -u squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a: "https://dora.beta.americanchip.io/api/measures/component?component=customers&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,coverage"
           cat sonar-report.json
-          curl -o sonar-report-security.json -u squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a: "https://dora.beta.americanchip.io/api/issues/search?componentKeys=customers&resolved=false&types=SECURITY_HOTSPOT&ps=500"
+          curl -o sonar-report-security.json -u squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a: "https://dora.beta.americanchip.io/api/issues/search?componentKeys=customers&resolved=false&types=VULNERABILITY&ps=500"
           cat sonar-report-security.json
