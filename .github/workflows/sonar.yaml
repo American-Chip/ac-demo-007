@@ -36,7 +36,7 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.language=python \
             -Dsonar.host.url=https://dora.beta.americanchip.io \
-            -Dsonar.login=sqp_48f11bba6b13ee902198e192f136953a4b812cbd \
+            -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a \
 
             
 
