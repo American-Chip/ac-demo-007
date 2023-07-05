@@ -21,15 +21,15 @@ jobs:
 
       - name: Set up SonarQube
         run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip
-          unzip sonar-scanner-cli-4.6.0.2311-linux.zip
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
+          unzip sonar-scanner-cli-4.8.0.2856-linux.zip
           mv sonar-scanner-4.6.0.2311-linux /opt/sonar-scanner
           echo "export PATH=/opt/sonar-scanner/bin:$PATH" >> $HOME/.bashrc
           source $HOME/.bashrc
 
       - name: Run SonarQube Analysis
         run: |
-          /opt/sonar-scanner/bin/sonar-scanner -X\
+          /opt/sonar-scanner/bin/sonar-scanner \
             -Dsonar.projectKey=customers \
             -Dsonar.projectName=customerst \
             -Dsonar.projectVersion=1.0 \
@@ -38,9 +38,9 @@ jobs:
             -Dsonar.host.url=https://dora.beta.americanchip.io \
             -Dsonar.login=sqp_48f11bba6b13ee902198e192f136953a4b812cbd \
             -Dsonar.issuesReport.console.enable=true \
-            -Dsonar.report.export.path=/home/sonar-report.json
 
-      - name: Print SonarQube Report
-        run: 
-          cat /home/sonar-report.json
-          ls $HOME
+
+      - name: Get SonarQube Report
+        run: |
+          curl -o sonar-report.json -u sqp_48f11bba6b13ee902198e192f136953a4b812cbd: https://dora.beta.americanchip.io/api/measures/component?component=customers&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,coverage
+          cat sonar-report.json
