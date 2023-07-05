@@ -38,12 +38,7 @@ jobs:
             -Dsonar.host.url=https://dora.beta.americanchip.io \
             -Dsonar.login=sqp_48f11bba6b13ee902198e192f136953a4b812cbd \
             -Dsonar.issuesReport.console.enable=true \
-            -Dsonar.report.export.path=/opt/sonar-scanner/bin/sonar-scanner/sonar-report.json
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-         limit-access-to-actor: true
+            -Dsonar.report.export.path=/opt/sonar-scanner/bin/sonar-report.json
 
       - name: Print SonarQube Report
-        run: cat /opt/sonar-scanner/bin/sonar-scanner/sonar-report.json
+        run: cat /opt/sonar-scanner/bin/sonar-report.json
