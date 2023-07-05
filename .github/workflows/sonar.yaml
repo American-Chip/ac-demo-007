@@ -43,7 +43,7 @@ jobs:
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
         with:
-          limit-access-to-actor: true
+         limit-access-to-actor: true
 
       - name: Print SonarQube Report
         run: cat /opt/sonar-scanner/bin/sonar-scanner/sonar-report.json
