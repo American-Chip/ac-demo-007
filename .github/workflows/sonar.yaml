@@ -13,11 +13,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Print Repository Name
+      - name: Create projet
         run: | 
-          echo "Repository: ${{ env.GITHUB_REPOSITORY }}"
           repository=$(basename $GITHUB_REPOSITORY)
           echo "Repository: $repository"
+          curl -u squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a: -X POST "https://dora.beta.americanchip.io/api/projects/create?project=$repository&name=$repository"
 
 
 
@@ -37,9 +37,12 @@ jobs:
 
       - name: Run SonarQube Analysis
         run: |
+          repository=$(basename $GITHUB_REPOSITORY)
+          echo "Repository: $repository"
+
           /opt/sonar-scanner/bin/sonar-scanner \
-            -Dsonar.projectKey=testlocalP \
-            -Dsonar.projectName=testlocal \
+            -Dsonar.projectKey=$repository \
+            -Dsonar.projectName=$repository \
             -Dsonar.projectVersion=1.0 \
             -Dsonar.sources=. \
             -Dsonar.language=python \
