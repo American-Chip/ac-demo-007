@@ -15,7 +15,9 @@ jobs:
 
       - name: Print Repository Name
         run: | 
-          env
+          echo "Repository: ${{ env.GITHUB_REPOSITORY }}"
+          echo "$env" | grep -oP 'GITHUB_REPOSITORY=\K.*'
+
 
       - name: Set up JDK
         uses: actions/setup-java@v2
