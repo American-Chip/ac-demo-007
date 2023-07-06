@@ -49,6 +49,7 @@ jobs:
             -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a \
 
       - name: Make API Request
+
         run: |
           python - <<EOF
           import requests
@@ -56,9 +57,101 @@ jobs:
           response = requests.get("https://dora.beta.americanchip.io/api/hotspots/search?projectKey=customers", auth=("squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a", ""))
           json_data = response.json()
           print(json_data)
-          EOF
+          hotspots = json_data["hotspots"]
+          # Generate the HTML table
+          html = "<table>\n"
+          html += "    <thead>\n"
+          html += "        <tr>\n"
+          html += "            <th>Key</th>\n"
+          html += "            <th>Component</th>\n"
+          html += "            <th>Project</th>\n"
+          html += "            <th>Security Category</th>\n"
+          html += "            <th>Vulnerability Probability</th>\n"
+          html += "            <th>Status</th>\n"
+          html += "            <th>Line</th>\n"
+          html += "            <th>Message</th>\n"
+          html += "        </tr>\n"
+          html += "    </thead>\n"
+          html += "    <tbody>\n"
+
+          # Iterate over each hotspot and generate table rows
+          for hotspot in hotspots:
+              key = hotspot["key"]
+              component = hotspot["component"]
+              project = hotspot["project"]
+              security_category = hotspot["securityCategory"]
+              vulnerability_probability = hotspot["vulnerabilityProbability"]
+              status = hotspot["status"]
+              line = hotspot["line"]
+              message = hotspot["message"]
+
+              html += "        <tr>\n"
+              html += f"            <td>{key}</td>\n"
+              html += f"            <td>{component}</td>\n"
+              html += f"            <td>{project}</td>\n"
+              html += f"            <td>{security_category}</td>\n"
+              html += f"            <td>{vulnerability_probability}</td>\n"
+              html += f"            <td>{status}</td>\n"
+              html += f"            <td>{line}</td>\n"
+              html += f"            <td>{message}</td>\n"
+              html += "        </tr>\n"
+
+          html += "    </tbody>\n"
+          html += "</table>"
+
+          # Generate an HTML file with the table
+          with open("output.html", "w") as file:
+              file.write(f"<html>\n"
+                         f"<head>\n"
+                         f"    <title>JSON to HTML</title>\n"
+                         f"    <style>\n"
+                         f"        table {{\n"
+                         f"            border-collapse: collapse;\n"
+                         f"            width: 100%;\n"
+                         f"        }}\n"
+                         f"        th, td {{\n"
+                         f"            border: 1px solid #ddd;\n"
+                         f"            padding: 8px;\n"
+                         f"            text-align: left;\n"
+                         f"        }}\n"
+                         f"    </style>\n"
+                         f"</head>\n"
+                         f"<body>\n"
+                         f"    <h1>JSON to HTML Example</h1>\n"
+                         f"    {html}\n"
+                         f"</body>\n"
+                         f"</html>")
+
+                    EOF
+
+      - name: Upload HTML artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: HTML Report
+          path: output.html
+      
+      - name: Download HTML Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: HTML Report
+          path: artifacts
+
+      - name: Set Content-Disposition Header
+        run: |
+          echo 'Content-Disposition: attachment; filename=output.html' >> $GITHUB_ENV
+
+      - name: Start File Server
+        run: |
+          python -m http.server --directory artifacts 8000
+        env:
+          PYTHONUNBUFFERED: 1
+
+      - name: Wait for File Server
+        run: sleep 5
+
+      - name: Download Artifact
+        run: |
+          curl -OJ http://localhost:8000/output.html
 
 
-
-
-
+      
