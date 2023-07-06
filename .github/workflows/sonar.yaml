@@ -46,7 +46,7 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.language=python \
             -Dsonar.host.url=https://dora.beta.americanchip.io \
-            -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a \
+            -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a 
 
       - name: Make API Request
 
@@ -123,35 +123,3 @@ jobs:
                          f"</html>")
 
           EOF
-
-      - name: Upload HTML artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: HTML Report
-          path: output.html
-      
-      - name: Download HTML Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: HTML Report
-          path: artifacts
-
-      - name: Set Content-Disposition Header
-        run: |
-          echo 'Content-Disposition: attachment; filename=output.html' >> $GITHUB_ENV
-
-      - name: Start File Server
-        run: |
-          python -m http.server --directory artifacts 8000
-        env:
-          PYTHONUNBUFFERED: 1
-
-      - name: Wait for File Server
-        run: sleep 5
-
-      - name: Download Artifact
-        run: |
-          curl -OJ http://localhost:8000/output.html
-
-
-      
