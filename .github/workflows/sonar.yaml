@@ -16,7 +16,9 @@ jobs:
       - name: Print Repository Name
         run: | 
           echo "Repository: ${{ env.GITHUB_REPOSITORY }}"
-          echo "$env" | grep -oP 'GITHUB_REPOSITORY=\K.*'
+          repository=$(basename $GITHUB_REPOSITORY)
+          echo "Repository: $repository"
+
 
 
       - name: Set up JDK
