@@ -20,7 +20,6 @@ jobs:
           curl -u squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a: -X POST "https://dora.beta.americanchip.io/api/projects/create?project=$repository&name=$repository"
 
 
-
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
@@ -48,4 +47,18 @@ jobs:
             -Dsonar.language=python \
             -Dsonar.host.url=https://dora.beta.americanchip.io \
             -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a \
+
+      - name: Make API Request
+        run: |
+          python - <<EOF
+          import requests
+
+           response = requests.get("https://dora.beta.americanchip.io/api/hotspots/search?projectKey=customers", auth=("squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a", ""))
+          json_data = response.json()
+          print(json_data)
+          EOF
+
+
+
+
 
