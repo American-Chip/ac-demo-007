@@ -7,7 +7,7 @@ on:
 
 
 env:
-
+  workspace: ${{ github.workspace }}
   OIDC: arn:aws:iam::817091419779:role/ac_customer_american_chip
 
  
@@ -73,7 +73,8 @@ jobs:
             -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a 
 
       - name: Make API Request
-
+        env:
+          workspace: ${{ env.workspace }} 
         run: |
           python - <<EOF
           import requests
@@ -151,6 +152,6 @@ jobs:
 
       - name: Upload Report to S3
         run: |
-          repo_name=$(basename $GITHUB_REPOSITORY)"_sonar"
+          repo_name=$(basename "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]' | tr '-' '_')_sonar
           S3_REMOTE_KEY=sonar/repositories/${{env.S3_KEY_DATE}}/${{env.CURRENT_TIME}}-${repo_name}
-          aws s3 cp ${workspace}/repo-to-scan/report-${repo_name}.html s3://prod-scan-result/${S3_REMOTE_KEY}.html
+          aws s3 cp ${workspace}/output.htm s3://prod-scan-result/${S3_REMOTE_KEY}.html
