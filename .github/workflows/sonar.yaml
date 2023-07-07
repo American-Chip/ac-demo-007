@@ -160,6 +160,6 @@ jobs:
 
       - name: Upload Report to S3
         run: |
-          repo_name=$(basename "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]' | tr '-' '_')_sonar
+          repo_name=$(basename "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]' | tr '_' '-')-sonar
           S3_REMOTE_KEY=sonar/repositories/${{env.S3_KEY_DATE}}/${{env.CURRENT_TIME}}-${repo_name}
           aws s3 cp ${workspace}/output.html s3://prod-scan-result/${S3_REMOTE_KEY}.html
