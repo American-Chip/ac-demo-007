@@ -73,8 +73,7 @@ jobs:
             -Dsonar.login=squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a 
 
       - name: Make API Request
-        env:
-          workspace: ${{ env.workspace }} 
+
         run: |
           python - <<EOF
           import requests
@@ -148,7 +147,7 @@ jobs:
                          f"</html>")
 
           EOF
-
+        working-directory:${{ env.workspace }} 
 
       - name: Upload Report to S3
         run: |
