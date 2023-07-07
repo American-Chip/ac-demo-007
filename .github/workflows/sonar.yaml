@@ -7,7 +7,7 @@ on:
 
 
 env:
-  workspace: ${{ github.workspace }}
+
   OIDC: arn:aws:iam::817091419779:role/GHA_SCAN
 
  
