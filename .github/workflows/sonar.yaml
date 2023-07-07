@@ -8,7 +8,7 @@ on:
 
 env:
 
-  OIDC: arn:aws:iam::817091419779:role/GHA_SCAN
+  OIDC: arn:aws:iam::817091419779:role/ac_customer_american_chip
 
  
 jobs:
