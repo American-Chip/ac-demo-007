@@ -28,3 +28,12 @@ jobs:
 
     secrets:
       ac_github_token: ${{ secrets.Token_WF }}
+
+  Deploy_sonar:
+  
+    permissions:
+      id-token: write
+      contents: read
+    uses: American-Chip/workflow-remote/.github/workflows/sonar-reusable.yaml@develop
+    with:
+      CLIENT_REPOSITORY: ${{ inputs.client_repository }}      

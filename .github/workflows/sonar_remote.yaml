@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  Deploy:
+  Deploy_sonar:
   
     permissions:
       id-token: write
