@@ -78,11 +78,13 @@ jobs:
         run: |
           python - <<EOF
           import requests
+          import os
 
           response = requests.get("https://dora.beta.americanchip.io/api/hotspots/search?projectKey=customers", auth=("squ_93d1c1e8c504da03350e6f76f9a69ae606ef4c6a", ""))
           json_data = response.json()
           print(json_data)
           hotspots = json_data["hotspots"]
+          file_path = os.path.join("${{ env.workspace }}", "output.html")
           # Generate the HTML table
           html = "<table>\n"
           html += "    <thead>\n"
@@ -125,7 +127,7 @@ jobs:
           html += "</table>"
 
           # Generate an HTML file with the table
-          with open("output.html", "w") as file:
+          with open(file_path, "w") as file:
               file.write(f"<html>\n"
                          f"<head>\n"
                          f"    <title>JSON to HTML</title>\n"
