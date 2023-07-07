@@ -145,7 +145,7 @@ jobs:
                          f"    </style>\n"
                          f"</head>\n"
                          f"<body>\n"
-                         f"    <h1>JSON to HTML Example</h1>\n"
+                         f"    <h1>Security Hotspots</h1>\n"
                          f"    {html}\n"
                          f"</body>\n"
                          f"</html>")
