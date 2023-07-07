@@ -148,7 +148,7 @@ jobs:
                          f"</html>")
 
           EOF
-        working-directory:${{ env.workspace }} 
+        
 
       - name: Upload Report to S3
         run: |
