@@ -85,6 +85,7 @@ jobs:
           print(json_data)
           hotspots = json_data["hotspots"]
           file_path = os.path.join("${{ env.workspace }}", "output.html")
+          print(f"La ruta de archivo completa es: {file_path}")
           # Generate the HTML table
           html = "<table>\n"
           html += "    <thead>\n"
@@ -149,6 +150,11 @@ jobs:
                          f"</body>\n"
                          f"</html>")
 
+          # Verificar si el archivo se escribió correctamente
+          if os.path.exists(file_path):
+            print("El archivo se escribió correctamente.")
+          else:
+            print("Ocurrió un error al escribir el archivo.")
           EOF
         
 
