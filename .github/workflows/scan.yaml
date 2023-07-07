@@ -36,4 +36,4 @@ jobs:
       contents: read
     uses: American-Chip/workflow-remote/.github/workflows/sonar-reusable.yaml@develop
     with:
-      CLIENT_REPOSITORY: ${{ inputs.client_repository }}      
+      USER_id: ${{ inputs.user_id }}  
