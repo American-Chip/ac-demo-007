@@ -19,6 +19,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: 'configure AWS credentials'
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        role-to-assume: ${{ env.OIDC }} 
+        role-session-name: 'commit=${{ github.sha }}'
+        role-duration-seconds: 1100
+        aws-region:  us-east-1  
+
       - name: Create projet
         run: | 
           repository=$(basename $GITHUB_REPOSITORY)
@@ -38,6 +46,14 @@ jobs:
           mv sonar-scanner-4.6.0.2311-linux /opt/sonar-scanner
           echo "export PATH=/opt/sonar-scanner/bin:$PATH" >> $HOME/.bashrc
           source $HOME/.bashrc
+
+      - name: Generate UUID
+        run: |
+          uuidgen > uuid.txt
+          echo "UUID=$(cat uuid.txt)" >> $GITHUB_ENV
+          echo "CURRENT_TIME=$(date +"%Y-%m-%d-%H:%M:%S")" >> $GITHUB_ENV
+          echo "CURRENT_TIME_ISO=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "S3_KEY_DATE=$(date +"%Y/%m/%d")" >> $GITHUB_ENV
 
       - name: Run SonarQube Analysis
         run: |
@@ -128,3 +144,10 @@ jobs:
                          f"</html>")
 
           EOF
+
+
+      - name: Upload Report to S3
+      run: |
+        repo_name=$(basename $GITHUB_REPOSITORY)"_sonar"
+        S3_REMOTE_KEY=sonar/repositories/${{env.S3_KEY_DATE}}/${{env.CURRENT_TIME}}-${repo_name}
+        aws s3 cp ${workspace}/repo-to-scan/report-${repo_name}.html s3://prod-scan-result/${S3_REMOTE_KEY}.html
