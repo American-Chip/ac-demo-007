@@ -24,7 +24,7 @@ jobs:
       CLIENT_REPOSITORY: ${{ inputs.client_repository }}
       BRANCH: ${{ inputs.branch }}
       USER_id: ${{ inputs.user_id }}
-      ORG: transformed_org_name::ac_customer_$(echo ${{ github.repository }} | awk -F '/' '{print tolower($1)}' | tr '-' '_')
+      ORG: ${{ 'ac_customer_' + github.repository_owner | lower | replace('-', '_') }}
       #ORG: american_chip  # This is the normalized organization name, all lower case and spaces for _ this must be respected.
 
     secrets:
