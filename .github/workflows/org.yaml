@@ -12,13 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Obtener nombre de organización
-        id: org_name
-        run: echo "::set-output name=org_name::$(echo ${{ github.repository }} | awk -F '/' '{print $1}')"
-
       - name: Transformar nombre de organización
         id: transformed_org_name
-        run: echo "::set-output name=transformed_org_name::$(echo ${{ steps.org_name.outputs.org_name }} | tr '[:upper:]' '[:lower:]' | tr '-' '_')"
+        run: |
+          echo "::set-output name=transformed_org_name::$(echo ${{ github.repository }} | awk -F '/' '{print tolower($1)}' | tr '-' '_')"
 
       - name: Imprimir nombre de organización transformado
         run: echo ${{ steps.transformed_org_name.outputs.transformed_org_name }}
