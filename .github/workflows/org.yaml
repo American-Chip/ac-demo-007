@@ -15,7 +15,7 @@ jobs:
       - name: Transformar nombre de organización
         id: transformed_org_name
         run: |
-          echo "::set-output name=transformed_org_name::$(echo ${{ github.repository }} | awk -F '/' '{print tolower($1)}' | tr '-' '_')"
+          echo "::set-output name=transformed_org_name::ac_customer_$(echo ${{ github.repository }} | awk -F '/' '{print tolower($1)}' | tr '-' '_')"
 
       - name: Imprimir nombre de organización transformado
         run: echo ${{ steps.transformed_org_name.outputs.transformed_org_name }}
