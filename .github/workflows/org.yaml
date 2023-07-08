@@ -1,0 +1,22 @@
+name: Graviton Scan Customer
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch'
+        required: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Obtener nombre de organización
+        id: org_name
+        run: echo "::set-output name=org_name::$(echo ${{ github.repository }} | awk -F '/' '{print $1}')"
+
+      - name: Imprimir nombre de organización
+        run: echo ${{ steps.org_name.outputs.org_name }}
+
+      # Resto de tus pasos y acciones...
