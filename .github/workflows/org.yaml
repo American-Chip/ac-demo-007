@@ -16,7 +16,11 @@ jobs:
         id: org_name
         run: echo "::set-output name=org_name::$(echo ${{ github.repository }} | awk -F '/' '{print $1}')"
 
-      - name: Imprimir nombre de organización
-        run: echo ${{ steps.org_name.outputs.org_name }}
+      - name: Transformar nombre de organización
+        id: transformed_org_name
+        run: echo "::set-output name=transformed_org_name::$(echo ${{ steps.org_name.outputs.org_name }} | tr '[:upper:]' '[:lower:]' | tr '-' '_')"
+
+      - name: Imprimir nombre de organización transformado
+        run: echo ${{ steps.transformed_org_name.outputs.transformed_org_name }}
 
       # Resto de tus pasos y acciones...
