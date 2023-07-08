@@ -24,7 +24,8 @@ jobs:
       CLIENT_REPOSITORY: ${{ inputs.client_repository }}
       BRANCH: ${{ inputs.branch }}
       USER_id: ${{ inputs.user_id }}
-      ORG: american_chip  # This is the normalized organization name, all lower case and spaces for _ this must be respected.
+      ORG: ${{ github.repository }} | awk -F '/' '{print tolower($1)}' | tr '-' '_')
+      #ORG: american_chip  # This is the normalized organization name, all lower case and spaces for _ this must be respected.
 
     secrets:
       ac_github_token: ${{ secrets.Token_WF }}
